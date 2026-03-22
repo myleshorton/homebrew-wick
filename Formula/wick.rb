@@ -1,18 +1,28 @@
 class Wick < Formula
   desc "Browser-grade web access for AI agents"
   homepage "https://getwick.dev"
-  version "0.1.0"
+  version "0.2.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/myleshorton/wick/releases/download/v0.1.0/wick-0.1.0-darwin-arm64.tar.gz"
-      sha256 "353f2262314fe2cad5760a9c72161c61b3d4da56e1c6749fa16112599f317570"
+      url "https://github.com/myleshorton/wick/releases/download/v0.2.0/wick-0.2.0-darwin-arm64.tar.gz"
+      sha256 "9d38cdcd01ab6a662989d87c14709bd998a5be62aacd40599104f745e630683a"
+
+      resource "wick-captcha" do
+        url "https://github.com/myleshorton/wick/releases/download/v0.2.0/wick-captcha"
+        sha256 "e2071ce2d46cf67a9558f163ca838f1378a5cf10b36e0dd89fce4c8eff8b46e9"
+      end
     end
   end
 
   def install
     bin.install "wick"
+
+    resource("wick-captcha").stage do
+      # The downloaded file is named wick-captcha in the stage dir
+      bin.install Dir["*"].first => "wick-captcha"
+    end
   end
 
   def caveats
